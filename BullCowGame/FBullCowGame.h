@@ -1,25 +1,53 @@
 #pragma once
 #include <string>
+#include <vector>
+
+using FString = std::string;
+using int32 = int;
+
+constexpr int32 MAX_TRIES{ 8 };
+const FString HIDDEN_WORD{ "planet" };
+
+// All values initialized to zero.
+struct FBullCowCount {
+	int32 Bulls{ 0 };
+	int32 Cows{ 0 };
+};
+
+enum class EWordStatus {
+	OK,
+	Not_Isogram,
+	Wrong_Length,
+	Not_Lowercase
+};
 
 class FBullCowGame {
 public:
-	//FBullCowGame ();
+	FBullCowGame ();
 	//~FBullCowGame ();
 
-	int GetMaxTries() const;
-	int GetCurrentTry() const;
+	int32 GetMaxTries() const;
+	int32 GetCurrentTry() const;
+	int32 GetHiddenWordLength() const;
+
 	bool IsGameWon() const;
+	EWordStatus CheckGuessValidity(FString) const;	// TODO Make a richer return value.
 
 	void IncrementNumberTry();
 
 	void Reset();
-	bool CheckGuessValidity(std::string);
+	FBullCowCount SubmitGuess(FString);
 
 private:
-	int MyCurrentTry{ 1 };
-	int MyMaxTries{ 5 };
-	
-	//bool IsIsogram(std::string word);
+	int32 MyCurrentTry;
+	int32 MyMaxTries;
+
+	FString MyHiddenWord;
+
+	//bool IsIsogram(FString word);
+
+	// Returns the position of a letter, not previously matched, in the hidden word. Starting from a given position. -1 if not found.
+	int LookForFreeMatch(char, size_t, std::vector<int>&);
 };
 /*
 FBullCowGame ::FBullCowGame () {
