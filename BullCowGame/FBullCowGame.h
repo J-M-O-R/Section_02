@@ -1,25 +1,31 @@
 #pragma once
 #include <string>
 
+using FString = std::string;
+using int32 = int;
+
+constexpr int32 MAX_TRIES{ 8 };
+
 class FBullCowGame {
 public:
-	//FBullCowGame ();
+	FBullCowGame ();
 	//~FBullCowGame ();
 
-	int GetMaxTries() const;
-	int GetCurrentTry() const;
+	int32 GetMaxTries() const;
+	int32 GetCurrentTry() const;
 	bool IsGameWon() const;
 
 	void IncrementNumberTry();
 
 	void Reset();
-	bool CheckGuessValidity(std::string);
+	bool CheckGuessValidity(FString);	// TODO Make a richer return value.
+	// Provide a method for counting bulls & cows, and increasing try #
 
 private:
-	int MyCurrentTry{ 1 };
-	int MyMaxTries{ 5 };
-	
-	//bool IsIsogram(std::string word);
+	int32 MyCurrentTry;
+	int32 MyMaxTries;
+
+	//bool IsIsogram(FString word);
 };
 /*
 FBullCowGame ::FBullCowGame () {

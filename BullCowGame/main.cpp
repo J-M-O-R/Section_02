@@ -1,11 +1,20 @@
+/*
+This is the console executable, that makes use of the BullCow class.
+This acts as the view in a MVC pattern, and it is responsible for all
+user interaction. For game logic see the FBullCowGame class.
+*/
+
 #include <iostream>
 #include <string>	// for the '>>' operator in line 11.
 #include "FBullCowGame.h"
 
+using FText = std::string;
+using int32 = int;
+
 void PrintIntro();
 void PlayGame();
-std::string GetGuess();
-void PrintBack(std::string& Guess);
+FText GetGuess();
+void PrintBack(FText& Guess);
 bool AskToPlayAgain();
 
 FBullCowGame BCGame;
@@ -23,7 +32,7 @@ int main() {
 
 // introduce the game
 void PrintIntro() {
-	constexpr int WORD_LENGTH{ 5 };
+	constexpr int32 WORD_LENGTH{ 5 };
 	std::cout << "Welcome to Bulls and Cows, a fun word game\n";
 	std::cout << "Can you guess the " << WORD_LENGTH << " letter isogram I'm thinking of?\n";
 	std::cout << std::endl;
@@ -31,30 +40,35 @@ void PrintIntro() {
 }
 
 void PlayGame() {
-	int MaxTries{ BCGame.GetMaxTries() };
-	//constexpr int NUMBER_OF_TURNS{ 5 };
-	std::string Guess{};
+	BCGame.Reset();
+	int32 MaxTries{ BCGame.GetMaxTries() };
+	FText Guess{};
 	// loop for the number of turns asking for guesses
-	for (int count{ 0 }; count < MaxTries; count++) {
-		Guess = GetGuess();
+	// TODO Change from FOR to WHILE loop once we are validating tries.
+	for (int32 count{ 0 }; count < MaxTries; count++) {
+		Guess = GetGuess();	// TODO Make loop checking valid.
+
+		// Submit valid guess to the game
+		// Print number of bulls and cows
 		PrintBack(Guess);
 		std::cout << std::endl;
 		BCGame.IncrementNumberTry();
 	}
+	// TODO summarise game
 }
 
-std::string GetGuess() {
+FText GetGuess() {
 	// Getting current try.
-	int CurrentTry{ BCGame.GetCurrentTry() };
+	int32 CurrentTry{ BCGame.GetCurrentTry() };
 	// Get a guess from the player
 	std::cout << "Try " << CurrentTry << ". Enter your guess: ";
-	std::string Guess{};
+	FText Guess{};
 	std::getline(std::cin, Guess);
 
 	return Guess;
 }
 
-void PrintBack(std::string& Guess) {
+void PrintBack(FText& Guess) {
 	// repeat the guess back to them
 	std::cout << "Your guess was: " << Guess << '\n';
 	return;
@@ -63,7 +77,7 @@ void PrintBack(std::string& Guess) {
 bool AskToPlayAgain()
 {
 	std::cout << "Do you want to play again (y/n)?";
-	std::string Response{};
+	FText Response{};
 	std::getline(std::cin, Response);
 
 	return (Response[0] == 'y') || (Response[0] == 'Y');
