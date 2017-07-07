@@ -7,10 +7,7 @@ FBullCowGame::FBullCowGame() {
 int32 FBullCowGame::GetMaxTries() const { return MyMaxTries; }
 int32 FBullCowGame::GetCurrentTry() const { return MyCurrentTry; }
 int32 FBullCowGame::GetHiddenWordLength() const { return MyHiddenWord.length(); }
-
-bool FBullCowGame::IsGameWon() const {
-	return false;
-}
+bool FBullCowGame::IsGameWon() const { return bGameIsWon; }
 
 void FBullCowGame::IncrementNumberTry() {
 	MyCurrentTry++;
@@ -20,25 +17,31 @@ void FBullCowGame::Reset() {
 	MyCurrentTry = 1;
 	MyMaxTries = MAX_TRIES;
 	MyHiddenWord = HIDDEN_WORD;
+	bGameIsWon = false;
 	return;
 }
 
-EWordStatus FBullCowGame::CheckGuessValidity(FString Guess) const {
-	return EWordStatus::OK;
+EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const {
+	if (int(Guess.length()) > GetHiddenWordLength()) {	// Check for length
+		return EGuessStatus::Wrong_Length;
+	} else if (false) {	// Check for lowercase
+		return EGuessStatus::Not_Lowercase;
+	} else if (false) {	// Check for isogram
+		return EGuessStatus::Not_Isogram;
+	} else {
+		return EGuessStatus::OK;
+	}
 }
 
 // Receives a valid guess, increments turn, and returns count
-FBullCowCount FBullCowGame::SubmitGuess(FString Guess) {
-	// Increment the turn number.
-	MyCurrentTry++;
-	// Setup a return variable
+FBullCowCount FBullCowGame::SubmitValidGuess(FString Guess) {
 	FBullCowCount BullCowCount;
-	// loop through all letters in the guess
 	// Vector that marks the positions matched in MyHiddenWord, by saving the position in Guess which made the match.
 	std::vector<int> MatchedInHidden(MyHiddenWord.length(), -1);
 	int PositionFound{ -1 };
 	size_t GuessLength{ Guess.length() };
 
+	// loop through all letters in the guess, and compare them against the hidden word
 	for (size_t i{ 0 }; i < GuessLength; i++) {
 
 		// Bulls prevail over cows, so let's just check for the Bull first.
@@ -68,7 +71,10 @@ FBullCowCount FBullCowGame::SubmitGuess(FString Guess) {
 		}
 
 	}
-	// compare letters against the hidden word
+	// Before leaving, check if the game was won.
+	if (BullCowCount.Bulls == GetHiddenWordLength()) {
+		bGameIsWon = true;
+	}
 	return BullCowCount;
 }
 
