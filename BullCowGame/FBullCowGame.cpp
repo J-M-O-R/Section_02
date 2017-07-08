@@ -1,5 +1,9 @@
+#pragma once
+
 #include "FBullCowGame.h"
 #include <map>
+
+// To make syntax Unreal friendly
 #define TMap std::map
 
 FBullCowGame::FBullCowGame() {
@@ -31,9 +35,9 @@ void FBullCowGame::Reset() {
 EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const {
 	if (int(Guess.length()) > GetHiddenWordLength()) {	// Check for length
 		return EGuessStatus::Wrong_Length;
-	} else if (!IsLowercase(Guess)) {	// TODO write function to check for lowercase 
+	} else if (!IsLowercase(Guess)) {
 		return EGuessStatus::Not_Lowercase;
-	} else if (!IsIsogram(Guess)) {	// TODO Write function to check for isogram
+	} else if (!IsIsogram(Guess)) {
 		return EGuessStatus::Not_Isogram;
 	} else {
 		return EGuessStatus::OK;

@@ -1,3 +1,9 @@
+/*
+The game logic (no view code or direct user interaction)
+The game is a simple guess the word game based on Mastermind
+*/
+
+// To make syntax Unreal friendly
 #pragma once
 #include <string>
 #include <vector>
@@ -7,7 +13,6 @@ using int32 = int;
 
 const FString HIDDEN_WORD{ "planet" };
 
-// All values initialized to zero.
 struct FBullCowCount {
 	int32 Bulls{ 0 };
 	int32 Cows{ 0 };
