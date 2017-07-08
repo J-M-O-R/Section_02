@@ -33,7 +33,15 @@ int main() {
 
 // introduce the game
 void PrintIntro() {
-	std::cout << "Welcome to Bulls and Cows, a fun word game\n";
+	std::cout << "\n\nWelcome to Bulls and Cows, a fun word game\n";
+	std::cout << std::endl;
+	std::cout << "          }   {      ___" << std::endl;
+	std::cout << "          (o o)     (o o)" << std::endl;
+	std::cout << "   /-------\\ /       \\ /-------\\" << std::endl;
+	std::cout << "  / | BULL |O         O| COW  | \\" << std::endl;
+	std::cout << " *  |-,----|           |------|  *" << std::endl;
+	std::cout << "    ^      ^           ^      ^" << std::endl;
+	std::cout << std::endl;
 	std::cout << "Can you guess the " << BCGame.GetHiddenWordLength() << " letter word I'm thinking of?\n";
 	std::cout << std::endl;
 	return;
@@ -68,7 +76,7 @@ FText GetValidGuess() {
 	do {
 		// Get a guess from the player
 		int32 CurrentTry{ BCGame.GetCurrentTry() };
-		std::cout << "Try " << CurrentTry << ". Enter your guess: ";
+		std::cout << "Try " << CurrentTry << " of " << BCGame.GetMaxTries() << ". Enter your guess: ";
 		FText Guess{};
 		std::getline(std::cin, Guess);
 
@@ -82,6 +90,7 @@ FText GetValidGuess() {
 			std::cout << "Please enter all lowercase letters.\n";
 			break;
 		case EGuessStatus::Not_Isogram:
+			std::cout << "Not an isogram.\n";
 		case EGuessStatus::OK:
 		default:
 			return Guess;

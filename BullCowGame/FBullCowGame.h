@@ -5,7 +5,6 @@
 using FString = std::string;
 using int32 = int;
 
-constexpr int32 MAX_TRIES{ 3 };
 const FString HIDDEN_WORD{ "planet" };
 
 // All values initialized to zero.
@@ -26,13 +25,12 @@ public:
 	FBullCowGame ();
 	//~FBullCowGame ();
 
-	int32 GetMaxTries() const;
 	int32 GetCurrentTry() const;
+	int32 GetMaxTries() const;
 	int32 GetHiddenWordLength() const;
 	bool IsGameWon() const;
 
 	EGuessStatus CheckGuessValidity(FString) const;
-
 	void IncrementNumberTry();
 
 	void Reset();
@@ -40,11 +38,11 @@ public:
 
 private:
 	int32 MyCurrentTry;
-	int32 MyMaxTries;
 	bool bGameIsWon;
 	FString MyHiddenWord;
 
 	bool IsIsogram(FString) const;
+	bool IsLowercase(FString) const;
 
 	// Returns the position of a letter, not previously matched, in the hidden word. Starting from a given position. -1 if not found.
 	int LookForFreeMatch(char, size_t, std::vector<int>&);
